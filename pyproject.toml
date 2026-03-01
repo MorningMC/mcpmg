@@ -3,8 +3,8 @@ name = "mcpmg"
 version = "0.1.0"
 description = "A light-weight, highly customizable Minecraft player model generator utility."
 requires-python = ">=3.12"
-dependencies = ["Pillow"]
+dependencies = ["Pillow", "typing_extensions"]
 
 [project.scripts]
-mcpmg = "mcpmg.cli.main:main"
-mcpmg-gui = "mcpmg.gui.main:main"
+mcpmg = "mcpmg.cli:main"
+mcpmg-gui = "mcpmg.gui:main"
