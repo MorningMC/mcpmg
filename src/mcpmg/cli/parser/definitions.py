@@ -1,6 +1,8 @@
 import argparse
 import pathlib
 
+from ..utils import *
+
 
 __all__ = (
 	'define_io_options',
@@ -33,7 +35,7 @@ def define_log_options(parser: argparse._ActionsContainer):
 		     '"--quiet" flag is set.'
 	)
 	parser.add_argument(
-		'-l', '--log-level', default='info', type=lambda value: int(value) if value.isdigit() else value,
+		'-l', '--log-level', default='info', type=convert_if_int,
 		choices=('debug', 'info', 'warning', 'error', 'critical', 10, 20, 30, 40, 50),
 		help='The lowest log level to display. The number formats of log levels are also supported, where 0 represents '
 		     '"notset", 10 represents "debug", 20 represents "info", 30 represents "warning", etc. Defaults to "info".'
@@ -50,6 +52,10 @@ def define_generator_options(parser: argparse._ActionsContainer):
 		'-f', '--format', default='geo', choices=('geo', 'bbs', 'bbmodel', 'obj'),
 		help='The output format of the exported player model. Must be one of "geo" for GeoJSON geometry, "bbs" for '
 		     'McHorse BBS model, "bbmodel" for Blockbench Model, or "obj" for Wavefront Object Format. Defaults to "geo".'
+	)
+	parser.add_argument(
+		'-F', '--format-options', default={}, type=parse_option_set,
+		help='Options passed to serializers separated by commas. For example: "key1=value1,key2=value2"'
 	)
 	parser.add_argument(
 		'--dont-modify-skin', action='store_true',

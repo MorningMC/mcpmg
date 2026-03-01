@@ -1,7 +1,20 @@
-from abc import ABC
+from dataclasses import dataclass
+from typing import Iterable
 
-from .serialize import Serializable
+
+@dataclass
+class Cube:
+	"""Represent a single cube within a model."""
+
+	origin: tuple[float, float, float]
+	size: tuple[float, float, float]
+	uv: tuple[int, int]
 
 
-class Model(ABC, Serializable):
-	...
+@dataclass
+class Model:
+	"""Represent a part of a player model."""
+
+	pivot: tuple[float, float, float]
+	cubes: Iterable[Cube]
+	children: dict[str, Model]

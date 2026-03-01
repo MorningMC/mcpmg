@@ -2,7 +2,7 @@ from typing import Optional
 from PIL import Image
 from PIL.ImageFile import ImageFile
 
-from .typing import PathOrBuffer
+from .typing import PathOrBuffer, Box
 from .utils import expect_one_of
 
 
@@ -73,6 +73,17 @@ class MinecraftSkin:
 		alpha = self.image.getpixel((check_x, check_y))[3]
 		self._slim_variant = alpha <= self.TRANSPARENT_THRESHOLD
 		return self._slim_variant
+
+	def crop(self, box: Optional[Box]):
+		"""
+        Returns a rectangular region from this skin image. The ``box`` parameter is a tuple defining the left, upper,
+        right, and lower pixel coordinate. This method is a wrapper of ``self.image.crop(box)``.
+
+        :param box: The crop rectangle, as a (left, upper, right, lower)-tuple.
+        :returns: An ``PIL.Image.Image`` object.
+        """
+
+		return self.image.crop(box)
 
 	@classmethod
 	def open(cls, fp: PathOrBuffer, slim_variant: Optional[bool] = None) -> MinecraftSkin:

@@ -1,7 +1,6 @@
 import argparse
 from sys import stdin, stdout
-from typing import Optional
-from typing_extensions import override
+from typing import Optional, override
 
 from ...core.typing import PathOrBuffer
 from .. import logger
@@ -10,18 +9,13 @@ from .. import logger
 class ParsedArguments(argparse._AttributeHolder):
 	"""
 	Represent parsed command-line arguments. This class provides some property-method to simplify and abstract logics.
-	Instances of this class should be passed to ``namespace`` parameter of ``parse_args`` method in ``argparse.ArgumentParser``
-	objects to get parsed arguments.
 	"""
 
-	def __init__(self, **kwargs):
-		self.__dict__['namespace'] = argparse.Namespace(**kwargs)
+	def __init__(self, namespace: argparse.Namespace):
+		self.namespace = namespace
 
 	def __getattr__(self, item):
 		return getattr(self.namespace, item)
-
-	def __setattr__(self, key, value):
-		setattr(self.namespace, key, value)
 
 	def __contains__(self, item):
 		return item in self.namespace

@@ -15,6 +15,4 @@ def parse_arguments() -> ParsedArguments:
 	define_generator_options(parser.add_argument_group('generator options', 'Options that passed to the generator.'))
 
 	# Parse arguments
-	parsed_args = ParsedArguments()
-	parser.parse_args(namespace=parsed_args)
-	return parsed_args
+	return ParsedArguments(parser.parse_args())
