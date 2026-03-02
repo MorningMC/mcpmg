@@ -7,14 +7,12 @@ from .parser import parse_arguments
 from .typing import StrPath
 
 
-def configure_logger(log_file: Optional[StrPath], level: int | str, quiet: bool):
+def configure_logger(log_output: Optional[StrPath], level: int | str):
 	"""
 	Configures the root logger of ``logging`` module.
 
-	:param log_file: The path to the log file. ``None`` represents output logs to ``sys.stderr``.
+	:param log_output: The path to the log file. ``None`` represents output logs to ``sys.stderr``.
 	:param level: The lowest log level to display. Both level names and number codes are supported.
-	:param quiet: Whether to supress the log output of stderr. Ignored if ``log_file`` is not ``None``, as ``sys.stderr``
-	is not used for log output
 	"""
 
 	# Map level names to number codes
@@ -26,11 +24,7 @@ def configure_logger(log_file: Optional[StrPath], level: int | str, quiet: bool)
 
 	# Configure for loggers
 	# If filename is None, basicConfig will fail by itself and use stderr instead
-	logging.basicConfig(filename=log_file, filemode='w', level=level)
-
-	# If logs outputs to stderr and quiet is set, disables all log outputs.
-	if not log_file and quiet:
-		logging.disable()
+	logging.basicConfig(filename=log_output, filemode='w', level=level)
 
 
 def main():
@@ -38,7 +32,7 @@ def main():
 
 	arguments = parse_arguments()
 
-	configure_logger(arguments.log_file, arguments.log_level, arguments.quiet)
+	configure_logger(arguments.log_output, arguments.log_level)
 	logger.debug(f'Parsed arguments: {arguments}')
 
 	_ = arguments.skin_output

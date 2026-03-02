@@ -13,7 +13,7 @@ class Cube:
 
 @dataclass
 class Model:
-	"""Represent a part of a player model."""
+	"""Represent a model or part of a model."""
 
 	pivot: tuple[float, float, float]
 	cubes: Iterable[Cube]

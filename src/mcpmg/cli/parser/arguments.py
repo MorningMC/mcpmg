@@ -1,5 +1,4 @@
 import argparse
-from sys import stdin, stdout
 from typing import Optional, override
 
 from ...core.typing import PathOrBuffer
@@ -29,28 +28,6 @@ class ParsedArguments(argparse._AttributeHolder):
 	@override
 	def _get_kwargs(self):
 		return self.namespace.__dict__.items()
-
-	@property
-	def input(self) -> PathOrBuffer:
-		"""
-		Return the input source of player skin texture used to generate model.
-
-		:return: The input source of player skin texture. Can be a filename (string), ``os.PathLike``
-		object or a file object.
-		"""
-
-		return self.namespace.input if self.namespace.input else stdin.buffer
-
-	@property
-	def model_output(self) -> PathOrBuffer:
-		"""
-		Return the output destination of generated player model.
-
-		:return: The output destination of generated player model. Can be a filename (string), ``os.PathLike``
-		object or a file object.
-		"""
-
-		return self.namespace.output if self.namespace.output else stdout.buffer
 
 	@property
 	def skin_output(self) -> Optional[PathOrBuffer]:
