@@ -1,3 +1,8 @@
+from sys import stdin
+
+from ..core.typing import GenericStrPath
+
+
 def convert_if_int(value: str) -> str | int:
 	"""
 	Convert a string to integer if it is a digit, or return the string as it is otherwise.
@@ -9,22 +14,16 @@ def convert_if_int(value: str) -> str | int:
 	return int(value) if value.isdigit() else value
 
 
-def parse_option_set(options: str) -> dict[str, str]:
+def read_file_or_stdin(path: GenericStrPath = '-') -> str:
 	"""
-	Parse a comma-separated key-value pair into ``dict`` object. Whitespaces around equal signs,
-	commas and adjacent commas will be ignored.
+	Read and return the content of a file, or the stdin stream if ``path`` is a literal string ``-``.
 
-	:param options: The comma-separated key-value pair to be parsed.
-	:return: The parsed ``dict`` object.
+	:param path: A path-like object, or a literal ``-``.
+	:return: The content of the specified file or stdin.
 	"""
 
-	result = {}
+	if path == '-':
+		return stdin.buffer.read().decode()
 
-	for pair in options.split(','):
-		if not pair or pair.isspace():
-			continue
-
-		key, value = pair.split('=', 1)
-		result[key.strip()] = value.strip()
-
-	return result
+	with open(path) as file:
+		return file.read()

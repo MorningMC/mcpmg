@@ -1,9 +1,9 @@
 import logging
 from typing import Optional
 
-from ..core.skin import MinecraftSkin
-from . import logger
-from .parser import parse_arguments
+from . import logger, LOGGER_PATTERN
+from .argument import parse_arguments
+from mcpmg.cli.definition import load_definition, parse_definition
 from .typing import StrPath
 
 
@@ -24,7 +24,7 @@ def configure_logger(log_output: Optional[StrPath], level: int | str):
 
 	# Configure for loggers
 	# If filename is None, basicConfig will fail by itself and use stderr instead
-	logging.basicConfig(filename=log_output, filemode='w', level=level)
+	logging.basicConfig(filename=log_output, filemode='w', level=level, format=LOGGER_PATTERN)
 
 
 def main():
@@ -35,11 +35,10 @@ def main():
 	configure_logger(arguments.log_output, arguments.log_level)
 	logger.debug(f'Parsed arguments: {arguments}')
 
-	_ = arguments.skin_output
+	definition = load_definition(arguments.input)
+	logger.debug(f'Model definition: {definition}')
 
-	skin = MinecraftSkin.open(arguments.input, arguments.slim_variant_skin)
-	logger.info(f'skin size: {skin.size}')
-	logger.info(f'Slim skin: {skin.slim_variant}')
+	tasks = parse_definition(definition)
 
 
 if __name__ == '__main__':

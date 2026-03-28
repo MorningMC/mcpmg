@@ -2,7 +2,7 @@ from typing import Optional
 from PIL import Image
 from PIL.ImageFile import ImageFile
 
-from .typing import PathOrBuffer, Box
+from .typing import PathOrBuffer, Rectangle
 from .utils import expect_one_of
 
 
@@ -74,7 +74,7 @@ class MinecraftSkin:
 		self._slim_variant = alpha <= self.TRANSPARENT_THRESHOLD
 		return self._slim_variant
 
-	def crop(self, box: Optional[Box]):
+	def crop(self, box: Optional[Rectangle]):
 		"""
         Returns a rectangular region from this skin image. The ``box`` parameter is a tuple defining the left, upper,
         right, and lower pixel coordinate. This method is a wrapper of ``self.image.crop(box)``.
@@ -90,9 +90,8 @@ class MinecraftSkin:
 		"""
 		Open a Minecraft skin texture from a filepath or a file object.
 
-		:param fp: A filename (string), ``os.PathLike`` object or a file object. The file object must implement ``file.read``,
-		``file.seek``, and ``file.tell`` methods, and be opened in binary mode. The file object will also seek to zero
-		before reading.
+		:param fp: A path-like` object or a file object. The file object must implement ``file.read``, ``file.seek``,
+		and ``file.tell`` methods, and be opened in binary mode. The file object will also seek to zero before reading.
 		:param slim_variant: Manually specify the variant of the skin. ``None`` represents infer from skin texture.
 		:return: A ``MinecraftSkin`` object.
 		"""

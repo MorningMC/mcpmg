@@ -1,5 +1,33 @@
 from dataclasses import dataclass
-from typing import Iterable
+from collections.abc import Iterable
+
+from ..typing import UVArea
+
+
+type UV = PerFaceUV | BoxUV
+
+
+@dataclass
+class PerFaceUV:
+	"""Represent a per-face UV map."""
+
+	north: UVArea
+	east: UVArea
+	south: UVArea
+	west: UVArea
+	up: UVArea
+	down: UVArea
+
+
+@dataclass
+class BoxUV:
+	"""Represent a box UV map."""
+
+	uv: UVArea
+
+	@property
+	def north(self):
+		...
 
 
 @dataclass
@@ -8,7 +36,7 @@ class Cube:
 
 	origin: tuple[float, float, float]
 	size: tuple[float, float, float]
-	uv: tuple[int, int]
+	uv: UVArea
 
 
 @dataclass

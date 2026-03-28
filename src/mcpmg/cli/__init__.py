@@ -17,3 +17,5 @@
 import logging
 
 logger = logging.getLogger(__name__)
+
+LOGGER_PATTERN = '%(asctime)s %(levelname)s [%(threadName)s] %(name)s:%(funcName)s:%(lineno)d - %(message)s'

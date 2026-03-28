@@ -258,3 +258,5 @@ cython_debug/
 
 ### User specified
 GEMINI.md
+/uv.lock
+/run/
